@@ -1,0 +1,183 @@
+targets:
+  # Notebooks used and repair parts
+  notebooks:
+    # Popular notebooks
+    popular:
+      - en: "Samsung Galaxy Book Go"
+        pt: "Samsung Galaxy Book Go"
+      - en: "Samsung Galaxy Book 2"
+        pt: "Samsung Galaxy Book 2"
+      - en: "Lenovo IdeaPad 3"
+        pt: "Lenovo IdeaPad 3"
+      - en: "Lenovo IdeaPad 3i"
+        pt: "Lenovo IdeaPad 3i"
+      - en: "Acer Aspire 5"
+        pt: "Acer Aspire 5"
+      - en: "Acer Aspire 3"
+        pt: "Acer Aspire 3"
+      - en: "Dell Inspiron 15"
+        pt: "Dell Inspiron 15"
+      - en: "Asus Vivobook"
+        pt: "Asus Vivobook"
+    # Gamer notebooks
+    gamer:
+      - en: "Acer Nitro 5"
+        pt: "Acer Nitro 5"
+      - en: "Lenovo Legion 5"
+        pt: "Lenovo Legion 5"
+      - en: "Dell G15"
+        pt: "Dell G15"
+      - en: "Apple MacBook Air M1"
+        pt: "Apple MacBook Air M1"
+    # Notebook repair parts
+    repair_parts:
+      - en: "Notebook Screen 15.6"
+        pt: "Tela Notebook 15.6"
+      - en: "Notebook Screen 14.0"
+        pt: "Tela Notebook 14.0"
+      - en: "Notebook Charger Dell 65W"
+        pt: "Carregador Notebook Dell 65W"
+      - en: "Notebook Charger Lenovo 20V"
+        pt: "Carregador Notebook Lenovo 20V"
+      - en: "Notebook Battery"
+        pt: "Bateria Notebook"
+      - en: "Notebook Motherboard Defective"
+        pt: "Placa Mãe Notebook com defeito"
+
+  # Desktop used and repair parts
+  desktop:
+    # Motherboards
+    motherboard:
+      - en: "B450"
+        pt: "B450"
+      - en: "B550"
+        pt: "B550"
+      - en: "H610"
+        pt: "H610"
+      - en: "A320"
+        pt: "A320"
+    # CPUs
+    cpu:
+      - en: "AMD Ryzen 5 5600G"
+        pt: "AMD Ryzen 5 5600G"
+      - en: "AMD Ryzen 5 4600G"
+        pt: "AMD Ryzen 5 4600G"
+      - en: "AMD Ryzen 7 5700X"
+        pt: "AMD Ryzen 7 5700X"
+      - en: "Intel Core i5 12400F"
+        pt: "Intel Core i5 12400F"
+      - en: "Intel Core i3 12100F"
+        pt: "Intel Core i3 12100F"
+    # GPUs
+    gpu:
+      - en: "RTX 3060 12GB"
+        pt: "RTX 3060 12GB"
+      - en: "RTX 4060 8GB"
+        pt: "RTX 4060 8GB"
+      - en: "GTX 1660 Super"
+        pt: "GTX 1660 Super"
+      - en: "Radeon RX 6600"
+        pt: "Radeon RX 6600"
+      - en: "Radeon RX 6700 XT"
+        pt: "Radeon RX 6700 XT"
+      - en: "Radeon RX 7600"
+        pt: "Radeon RX 7600"
+  # Memory (RAM)
+  memory:
+    # DDR4 RAM (Desktop)
+    ddr4:
+      - en: "8GB 3200MHz"
+        pt: "8GB 3200MHz"
+      - en: "16GB 3200MHz"
+        pt: "16GB 3200MHz"
+    # DDR5 RAM (Desktop)
+    ddr5:
+      - en: "8GB 4800MHz"
+        pt: "8GB 4800MHz"
+      - en: "16GB 4800MHz"
+        pt: "16GB 4800MHz"
+    # SODIMM RAM (Notebook)
+    sodimm:
+      - en: "SODIMM DDR4 4GB"
+        pt: "SODIMM DDR4 4GB"
+      - en: "SODIMM DDR4 8GB"
+        pt: "SODIMM DDR4 8GB"
+
+  # Storage
+  storage:
+    # NVMe SSD
+    nvme:
+      - en: "1TB Kingston"
+        pt: "1TB Kingston"
+      - en: "1TB Crucial"
+        pt: "1TB Crucial"
+      - en: "500GB Crucial"
+        pt: "500GB Crucial"
+    # SATA SSD
+    sata:
+      - en: "240GB Kingston"
+        pt: "240GB Kingston"
+      - en: "480GB Kingston"
+        pt: "480GB Kingston"
+    # HD
+    hd:
+      - en: "1TB"
+        pt: "1TB"
+      - en: "2TB"
+        pt: "2TB"
+      - en: "500GB"
+        pt: "500GB"
+
+  # Peripherals
+  peripherals:
+    # Mouses
+    mouse:
+      - en: "Logitech G203"
+        pt: "Logitech G203"
+      - en: "Logitech G Pro X Superlight"
+        pt: "Logitech G Pro X Superlight"
+      - en: "Razer Viper Mini"
+        pt: "Razer Viper Mini"
+      - en: "Wireless Mouse"
+        pt: "Mouse Sem Fio"
+      - en: "Kysona M600"
+        pt: "Kysona M600"
+    # Keyboards
+    keyboard:
+      - en: "Redragon Kumara"
+        pt: "Redragon Kumara"
+      - en: "Keychron"
+        pt: "Keychron"
+      - en: "Ajazz AK620 PRO"
+        pt: "Ajazz AK620 PRO"
+      - en: "Wireless Keyboard"
+        pt: "Teclado Sem Fio"
+    # Monitors
+    monitor:
+      - en: "LG UltraGear 144Hz"
+        pt: "LG UltraGear 144Hz"
+      - en: "AOC Hero 144Hz"
+        pt: "AOC Hero 144Hz"
+
+  # Other high liquidity electronics (for quick cash turnover)
+  other_electronics:
+    # Consoles
+    consoles:
+      - en: "Xbox Series S"
+        pt: "Xbox Series S"
+      - en: "PlayStation 4 Slim"
+        pt: "PlayStation 4 Slim"
+      - en: "PlayStation 5"
+        pt: "PlayStation 5"
+      - en: "Nintendo Switch OLED"
+        pt: "Nintendo Switch OLED"
+    # Smartphones
+    used_smartphones:
+      - en: "iPhone 11 64GB"
+        pt: "iPhone 11 64GB"
+      - en: "iPhone 12 128GB"
+        pt: "iPhone 12 128GB"
+      - en: "iPhone 13"
+        pt: "iPhone 13"
+      - en: "iPhone 14"
+        pt: "iPhone 14"

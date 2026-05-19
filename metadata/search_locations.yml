@@ -1,0 +1,24 @@
+search_locations:
+  brazil:
+    language: "pt"
+    stores:
+      - "Mercado Livre"
+      - "OLX"
+      - "Enjoei"
+      - "Facebook Marketplace"
+    regions:
+      - "São Paulo"
+      - "Rio de Janeiro"
+      - "Rio Grande do Sul"
+      - "Minas Gerais"
+  usa:
+    language: "en"
+    stores:
+      - "eBay"
+      - "Craigslist"
+      - "Facebook Marketplace"
+    regions:
+      - "California"
+      - "Florida"
+      - "Texas"
+      - "New York"
