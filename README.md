@@ -1,7 +1,6 @@
 # Hardware Arbitrage Engine
 
 ![Python](https://img.shields.io/badge/python-3.14-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.136.1-05998b.svg)
 ![Pydantic](https://img.shields.io/badge/Pydantic-2.13.4-e91e63.svg)
 ![Polars](https://img.shields.io/badge/Polars-1.40.1-f7a80b.svg)
 
