@@ -1,5 +1,6 @@
 import httpx
 
+
 def get_httpx_client(base_url: str) -> httpx.AsyncClient:
     """
     Instantiates and returns an httpx.AsyncClient configured with custom limits and timeouts.

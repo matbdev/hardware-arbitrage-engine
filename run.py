@@ -1,4 +1,4 @@
-from app import main
+from app import main as run_pipe
 
 if __name__ == '__main__':
-    main()
+    run_pipe()

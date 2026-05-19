@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
+
 from ..utils import get_httpx_client
+
 
 async def scrape_site(url: str):
     """

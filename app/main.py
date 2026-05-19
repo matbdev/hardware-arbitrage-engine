@@ -1,5 +1,10 @@
 from dotenv import load_dotenv
-from .utils import read_additional_info_metadata, read_search_locations_metadata, read_scraping_targets_metadata
+
+from .utils import (
+    read_additional_info_metadata,
+    read_scraping_targets_metadata,
+    read_search_locations_metadata,
+)
 
 # Loads env variables from .env file
 load_dotenv()

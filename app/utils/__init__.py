@@ -1,4 +1,3 @@
-from .get_httpx_client import get_httpx_client
 from .read_metadata import (
     read_additional_info_metadata as read_additional_info_metadata,
 )
