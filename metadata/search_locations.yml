@@ -2,10 +2,14 @@ search_locations:
   brazil:
     language: "pt"
     stores:
-      - "Mercado Livre"
-      - "OLX"
-      - "Enjoei"
-      - "Facebook Marketplace"
+      - name: "Mercado Livre"
+        base_url: "https://lista.mercadolivre.com.br"
+      - name: "OLX"
+        base_url: "https://www.olx.com.br"
+      - name: "Enjoei"
+        base_url: "https://www.enjoei.com.br"
+      - name: "Facebook Marketplace"
+        base_url: "https://www.facebook.com/marketplace"
     regions:
       - "São Paulo"
       - "Rio de Janeiro"
@@ -14,9 +18,12 @@ search_locations:
   usa:
     language: "en"
     stores:
-      - "eBay"
-      - "Craigslist"
-      - "Facebook Marketplace"
+      - name: "eBay"
+        base_url: "https://www.ebay.com/sch/i.html"
+      - name: "Craigslist"
+        base_url: "https://craigslist.org"
+      - name: "Facebook Marketplace"
+        base_url: "https://www.facebook.com/marketplace"
     regions:
       - "California"
       - "Florida"

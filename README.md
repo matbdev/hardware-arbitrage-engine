@@ -9,7 +9,7 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 
 ## Core Tech Stack
 * **Package Management:** uv
-* **Backend & API:** FastAPI (Python), Uvicorn, httpx
+* **Backend & API:** httpx
 * **Data Validation:** Pydantic (Strict schema enforcement for AI outputs)
 * **Data Engineering / Processing:** Polars (Raw to Intermediate to Processed data transformation)
 * **AI Integration:** DeepSeek V3 (via OpenRouter API)
@@ -20,7 +20,7 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 
 ## System Architecture
 1. **The Scraper (Ingestion / 1.raw):** 
-   * FastAPI background tasks use `httpx` (or Playwright) to fetch live listings asynchronously.
+   * `httpx` to fetch live listings asynchronously.
    * Target metadata and search locations are loaded dynamically from `metadata/` YAML files.
    * Raw HTML/JSON dumps are saved locally to the `data/1.raw/` directory.
 2. **The Processing Pipeline (2.intermediate):** 
@@ -39,11 +39,9 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 ```text
 hardware-arbitrage-engine/
 ├── app/                         # Application logic
-│   ├── api/
-│   │   └── routes.py            # Endpoints to trigger scrapes/appraisals
 │   ├── core/
 │   │   └── config.py            # API keys, DB URIs
-│   ├── main.py                  # FastAPI entry point
+│   ├── main.py                  # Project entry point
 │   ├── models/
 │   │   └── schemas.py           # Pydantic models for listings and AI outputs
 │   ├── scrapper/
