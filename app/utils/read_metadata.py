@@ -49,3 +49,4 @@ def read_additional_info_metadata() -> dict:
         dict: The additional information metadata.
     """
     return _read_yaml(METADATA_DIR / 'additional_info.yml')
+

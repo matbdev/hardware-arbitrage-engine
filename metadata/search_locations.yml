@@ -8,8 +8,6 @@ search_locations:
         base_url: "https://www.olx.com.br"
       - name: "Enjoei"
         base_url: "https://www.enjoei.com.br"
-      - name: "Facebook Marketplace"
-        base_url: "https://www.facebook.com/marketplace"
     regions:
       - "São Paulo"
       - "Rio de Janeiro"
@@ -22,8 +20,6 @@ search_locations:
         base_url: "https://www.ebay.com/sch/i.html"
       - name: "Craigslist"
         base_url: "https://craigslist.org"
-      - name: "Facebook Marketplace"
-        base_url: "https://www.facebook.com/marketplace"
     regions:
       - "California"
       - "Florida"
