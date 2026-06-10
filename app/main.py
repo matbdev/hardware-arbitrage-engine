@@ -11,12 +11,14 @@ from .utils import (
 load_dotenv()
 
 async def main():
+    olx_service = OLXService()
+
     # Read the scraping targets metadata
     targets_metadata = read_scraping_targets_metadata().get("targets", [])
     itens = targets_metadata.items()
 
     for category, subcategories in itens:
-        print(f"Category: {category}")
+        # print(f"Category: {category}")
 
         for subcategory, items in subcategories.items():
             append_subcategory = False
@@ -25,17 +27,15 @@ async def main():
             if subcategory in ["motherboard"]:
                 append_subcategory = True
             
-            print(f"Subcategory: {subcategory}")
+            # print(f"Subcategory: {subcategory}")
             for item in items:
                 item_name = item.get('pt', '')
                 if append_subcategory or item_name == "":
                     item_name = subcategory.capitalize() + " " + item_name
-                    
-                print(f"Item: {item_name}")
+                    results = await olx_service.get_details_links(item_name)
+                    print(results)
+                # print(f"Item: {item_name}")
             print()
         print()
 
-    # olx_service = OLXService()
-    # results = await olx_service.get_details_links("Notebook")
-    # print(results)
-    # await olx_service.terminate_client()
+    await olx_service.terminate_client()
