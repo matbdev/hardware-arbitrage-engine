@@ -2,17 +2,19 @@ search_locations:
   brazil:
     language: "pt"
     stores:
-      - name: "Mercado Livre"
-        base_url: "https://lista.mercadolivre.com.br"
       - name: "OLX"
         base_url: "https://www.olx.com.br"
       - name: "Enjoei"
         base_url: "https://www.enjoei.com.br"
     regions:
-      - "São Paulo"
-      - "Rio de Janeiro"
-      - "Rio Grande do Sul"
-      - "Minas Gerais"
+      - full_name: "São Paulo"
+        abreviation: "sp"
+      - full_name: "Rio de Janeiro"
+        abreviation: "rj"
+      - full_name: "Rio Grande do Sul"
+        abreviation: "rs"
+      - full_name: "Minas Gerais"
+        abreviation: "mg"
   usa:
     language: "en"
     stores:
