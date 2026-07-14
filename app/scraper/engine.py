@@ -1,9 +1,21 @@
 import httpx
 from bs4 import BeautifulSoup
+import logging
 
-from ..utils import get_httpx_client
+# Tenacity
+from ..config import logger
+from tenacity import retry, wait_exponential, stop_after_attempt, before_sleep_log
 
 
+# Wait exponentially: 4s, 8s, 16s, 32s, up to 60s max.
+# Stop trying after 6 total attempts.
+# Log a message before sleeping so you know a 429 happened.
+@retry(
+    wait=wait_exponential(multiplier=2, min=4, max=60),
+    stop=stop_after_attempt(6),
+    before_sleep=before_sleep_log(logger, logging.WARNING),
+    reraise=True # If it fails 6 times, raise the error to be caught
+)
 async def scrape_url(url: str, client: httpx.AsyncClient) -> dict:
     """
     Scrapes a website asynchronously.
