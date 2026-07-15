@@ -40,4 +40,5 @@ async def scrape_url(url: str, client: httpx.AsyncClient) -> dict:
 
     except Exception as e:
         print(f'Error: {e}')
-        return {'url': url, 'status': 'error', 'title': str(e)}
+        # We must re-raise the exception so that tenacity knows it failed and triggers the backoff retry
+        raise
