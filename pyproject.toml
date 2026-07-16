@@ -28,6 +28,7 @@ dependencies = [
     "orjson==3.11.9",
     "packaging==26.2",
     "pandas>=3.0.3",
+    "papermill>=2.7.0",
     "polars>=1.40.1",
     "pyarrow>=25.0.0",
     "pydantic==2.13.4",

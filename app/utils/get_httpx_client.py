@@ -38,7 +38,8 @@ def get_httpx_client(base_url: str) -> httpx.AsyncClient:
         follow_redirects=True,
         timeout=30,
         headers=headers,
-        http2=False
+        http2=False,
+        verify=False
     )
 
     return client

@@ -1,2 +1,2 @@
 from .base import Base
-from .bronze import GeneralSearch
+from .bronze import GeneralSearch, InformationExtraction

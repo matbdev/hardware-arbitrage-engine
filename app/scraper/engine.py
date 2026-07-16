@@ -36,9 +36,15 @@ async def scrape_url(url: str, client: httpx.AsyncClient) -> dict:
         soup = BeautifulSoup(response.text, 'html.parser')
         body = str(soup.body) if soup.body else 'No Body Found'
 
-        return {'url': url, 'status': response.status_code, 'body': body}
+        return {'url': url, 'status': response.status_code, 'body': body, 'available': True}
 
-    except Exception as e:
-        print(f'Error: {e}')
-        # We must re-raise the exception so that tenacity knows it failed and triggers the backoff retry
-        raise
+    except httpx.HTTPStatusError as exc:
+        if exc.response.status_code == 410:
+            print(f"Add {url} isn't available (selled/deleted).")
+            return {'url': url, 'status': response.status_code, 'body': None, 'available': False}
+        elif exc.response.status_code == 404:
+            print(f"Page not found: {url}")
+            return {'url': url, 'status': 404, 'body': None, 'avaliable': False}
+        else:
+            print(f"Unexpected error: {exc}")
+            raise exc
