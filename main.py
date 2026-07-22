@@ -22,9 +22,9 @@ def main() -> None:
     print("Database tables initialized successfully.")
 
     # Execute full data pipeline across Bronze, Silver, and Gold layers
-    print("Starting pipeline execution...")
-    run_pipelines()
-    print("Pipeline execution completed successfully.")
+    # print("Starting pipeline execution...")
+    # run_pipelines()
+    # print("Pipeline execution completed successfully.")
 
 
 if __name__ == "__main__":

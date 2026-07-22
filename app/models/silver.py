@@ -26,8 +26,8 @@ class SilverCleanAd(Base):
     description: Mapped[str]
     price: Mapped[float]
     currency: Mapped[str]
-    ram_gb: Mapped[Optional[int]]
-    storage_gb: Mapped[Optional[int]]
+    ram_gb: Mapped[Optional[float]]
+    storage_gb: Mapped[Optional[float]]
     cpu_brand: Mapped[str]
     cpu_model: Mapped[str]
     gpu_brand: Mapped[str]
@@ -40,6 +40,7 @@ class SilverCleanAd(Base):
     link: Mapped[str]
     first_image_src: Mapped[str]
     characteristics: Mapped[list[str]] = mapped_column(JSON)
+    baseline_id: Mapped[str]
     
     # Feature Engineering Flags
     needs_repair: Mapped[bool]
