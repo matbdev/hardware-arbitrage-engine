@@ -1,7 +1,10 @@
 import re
+
 from bs4 import BeautifulSoup
-from ..utils import get_httpx_client
+
 from ..scraper import scrape_url
+from ..utils import get_httpx_client
+
 
 class OLXService:
     def __init__(self, base_url="https://www.olx.com.br"):
@@ -104,8 +107,8 @@ class OLXService:
                     final_currency = price_splitted[0]
                     raw_value = price_splitted[1]
                     
-                    # 1. Remove the thousands separator (dot)
-                    # 2. Replace the decimal separator (comma) with a dot
+                    # Remove the thousands separator (dot)
+                    # Replace the decimal separator (comma) with a dot
                     clean_value = raw_value.replace('.', '').replace(',', '.')
                     
                     try:
@@ -115,9 +118,14 @@ class OLXService:
 
             # Details is set under div#details, with classes olx-container
             details_container = soup.find("div", id="details")
-            details_divs = soup.find_all("div", class_="olx-container") if details_container else None
+            details_divs = details_container.find_all("div", class_="olx-container") if details_container else None
 
             details_dict = {}
+
+            # The unique ad id is located 'Add to favorites' modal, to remember the product you wanted
+            # to interact with
+            div_favorite = soup.find("div", id="ad-favorite-modal")
+            ad_id = div_favorite.find("a").get('href').split('=')[-1] if div_favorite else None
             
             for div in details_divs:
                 span_tags = div.find_all("span")
@@ -136,7 +144,8 @@ class OLXService:
                 "description": description,
                 "price": final_price,
                 "currency": final_currency,
-                "details_dict": details_dict
+                "details_dict": details_dict,
+                "ad_id": ad_id
             }
 
         return result

@@ -1,10 +1,12 @@
 """
 Bronze layer database models.
 """
-from typing import Optional
 from datetime import datetime as dt
-from sqlalchemy.orm import Mapped, mapped_column
+from typing import Optional
+
 from sqlalchemy import JSON
+from sqlalchemy.orm import Mapped, mapped_column
+
 from .base import Base
 
 
@@ -35,6 +37,7 @@ class InformationExtraction(Base):
     __tablename__ = "bronze_extraction_data"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    ad_id: Mapped[str]
     general_search_id: Mapped[int]
     first_image_src: Mapped[str]
     title: Mapped[str]

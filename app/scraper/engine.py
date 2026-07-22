@@ -1,10 +1,11 @@
+import logging
+
 import httpx
 from bs4 import BeautifulSoup
-import logging
+from tenacity import before_sleep_log, retry, stop_after_attempt, wait_exponential
 
 # Tenacity
 from ..config import logger
-from tenacity import retry, wait_exponential, stop_after_attempt, before_sleep_log
 
 
 # Wait exponentially: 4s, 8s, 16s, 32s, up to 60s max.

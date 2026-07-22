@@ -1,10 +1,15 @@
-import re
+"""
+OLX Crawler module for discovering and extracting product listings from OLX marketplace.
+"""
 import asyncio
 import random
+import re
+
 import polars as pl
-from app.services import OLXService
-from app.utils import read_scraping_targets_metadata
+
 from app.config import semaphore
+from app.services.olx_service import OLXService
+from app.utils import read_scraping_targets_metadata
 
 # Regex pattern to extract region from OLX URLs
 OLX_REGION_PATTERN = re.compile(r"https?://([^.]+)\.olx")
@@ -12,34 +17,34 @@ OLX_REGION_PATTERN = re.compile(r"https?://([^.]+)\.olx")
 class OLXCrawler:
     """
     Crawler responsible for discovering and extracting product links from OLX.
-    This class orchestrates the interaction with OLXService and applies business rules
+    Orchestrates interaction with OLXService and applies business rules
     based on the project's scraping targets.
     """
     def __init__(self, base_data_list: list, base_url: str = "https://www.olx.com.br"):
         """
-        Initializes the crawler.
+        Initializes the OLX crawler.
 
         Args:
-            base_data_list (list): The list where extracted row dictionaries will be appended.
-            base_url (str, optional): The base URL of the store. Defaults to "https://www.olx.com.br".
+            base_data_list (list): Reference list to append extracted row dictionaries.
+            base_url (str, optional): Base URL of the store. Defaults to "https://www.olx.com.br".
         """
         self.olx_service = OLXService(base_url=base_url)
         self.base_data_list = base_data_list
     
     async def scrap_general_links(self):
         """
-        Starts the scraping process to discover general links and terminates the client afterwards.
+        Starts the scraping process to discover general links and terminates the HTTP client afterwards.
         """
         await self.search_for_general_links()
         await self.olx_service.terminate_client()
 
     async def scrap_specific_information(self, df: pl.DataFrame, not_available_products: list):
         """
-        Starts the scraping process to discover specific product information and terminates the client afterwards.
+        Starts the scraping process for specific product details and terminates the client afterwards.
 
         Args:
             df (pl.DataFrame): DataFrame containing links and metadata of products to be scraped.
-            not_available_products (list): A list where unavailable product IDs will be appended.
+            not_available_products (list): Reference list to append unavailable product IDs.
         """
         await self.scrap_for_specific_information(
             df=df,
@@ -50,43 +55,43 @@ class OLXCrawler:
     async def search_for_general_links(self):
         """
         Reads target metadata (categories and subcategories), queries the OLX service,
-        and populates the base_data_list with the discovered items and their links.
-        This represents the primary discovery flow for the Bronze layer.
+        and populates base_data_list with discovered items and links.
+        Represents the primary discovery flow for the Bronze layer.
         """
         # Read the scraping targets metadata
         targets_metadata = read_scraping_targets_metadata().get("targets", [])
-        itens = targets_metadata.items()
+        items = targets_metadata.items()
 
-        # Tasks arguments for semaphore execution
+        # Task arguments for semaphore execution
         tasks_args = []
-        for category, subcategories in itens:
-            for subcategory, items in subcategories.items():
+        for category, subcategories in items:
+            for subcategory, item_list in subcategories.items():
                 append_subcategory = False
                 if category in ["memory", "storage", "peripherals"]:
                     append_subcategory = True
                 if subcategory in ["motherboard"]:
                     append_subcategory = True
                 
-                for item in items:
+                for item in item_list:
                     item_name = item.get('pt', '')
                     if append_subcategory or item_name == "":
                         item_name = subcategory.capitalize() + " " + item_name
 
                     tasks_args.append((category, subcategory, item_name))
         
-        # 2. Define Semaphore and Async Worker
+        # Define Semaphore and Async Worker
         async def fetch_general(category, subcategory, item_name):
             async with semaphore:
-                # Delay between runs, 0.5 - 1.5s
+                # Random delay between runs (0.5 - 1.5s) to avoid rate limits
                 await asyncio.sleep(random.uniform(0.5, 1.5))
                 results = await self.olx_service.get_details_links(item_name)
                 return category, subcategory, item_name, results
         
-        # 3. Concurrent Execution
+        # Concurrent Execution
         tasks = [fetch_general(c, s, i) for c, s, i in tasks_args]
         completed_tasks = await asyncio.gather(*tasks)
 
-        # 4. Results Processing
+        # Results Processing
         for category, subcategory, item_name, results in completed_tasks:
             url = results.get('url', '')
             status = results.get('status', 400)
@@ -114,18 +119,18 @@ class OLXCrawler:
 
     async def scrap_for_specific_information(self, df: pl.DataFrame, not_available_products: list):
         """
-        Iterates over a DataFrame of target products and queries the OLX service to extract specific information.
-        Populates the base_data_list with the extracted details and updates not_available_products if applicable.
+        Iterates over a DataFrame of target products and queries OLX service for detailed info.
+        Populates base_data_list with extracted details and updates not_available_products if applicable.
 
         Args:
-            df (pl.DataFrame): DataFrame containing product information like general_search_id, link, and store.
-            not_available_products (list): A list where unavailable product IDs will be appended.
+            df (pl.DataFrame): DataFrame containing product information (id, link, etc.).
+            not_available_products (list): Reference list for unavailable product IDs.
         """
 
-        # 1. Define Semaphore and Async Worker
+        # Define Semaphore and Async Worker
         async def fetch_specific(row):
             async with semaphore:
-                # Delay between runs, 0.5 - 2s
+                # Random delay between runs (0.5 - 2.0s)
                 await asyncio.sleep(random.uniform(0.5, 2.0))
                 general_search_id = row[0]
                 link = row[7]
@@ -133,20 +138,20 @@ class OLXCrawler:
                 result = await self.olx_service.extract_further_information(link)
                 return general_search_id, result
 
-        # 2. Concurrent Execution based on Polars DataFrame rows
+        # Concurrent Execution based on Polars DataFrame rows
         tasks = [fetch_specific(row) for row in df.iter_rows()]
         completed_tasks = await asyncio.gather(*tasks)
 
-        # 3. Results Processing and Separation
+        # Results Processing and Separation
         for general_search_id, result in completed_tasks:
-            # If is not available (410), insert into another table for future update
+            # If not available (410 Gone / deleted), insert into unavailable list
             if "available" in result:
                 not_available_products.append({
                     "id": general_search_id,
                     "available": result["available"]
                 })
             else:
-                # Otherwise, insert into the extraction table
+                # Insert into extraction dataset
                 self.base_data_list.append({
                     "general_search_id": general_search_id,
                     "first_image_src": result['first_image'],
@@ -154,5 +159,6 @@ class OLXCrawler:
                     "description": result['description'],
                     "price": result['price'],
                     "currency": result['currency'],
-                    "specifications": result['details_dict']
+                    "specifications": result['details_dict'],
+                    "ad_id": result['ad_id']
                 })

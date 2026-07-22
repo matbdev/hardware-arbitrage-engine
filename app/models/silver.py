@@ -1,8 +1,11 @@
-from typing import Optional
 from datetime import date
-from sqlalchemy.orm import Mapped, mapped_column
+from typing import Optional
+
 from sqlalchemy import JSON
+from sqlalchemy.orm import Mapped, mapped_column
+
 from .base import Base
+
 
 class SilverCleanAd(Base):
     """
@@ -12,6 +15,7 @@ class SilverCleanAd(Base):
     __tablename__ = "silver_clean_ads"
 
     id: Mapped[int] = mapped_column(primary_key=True)
+    ad_id: Mapped[str]
     date: Mapped[date]
     category: Mapped[str]
     subcategory: Mapped[str]
