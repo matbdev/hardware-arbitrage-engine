@@ -6,8 +6,8 @@ Contains Configuration-as-Code YAML files defining scraping targets, search loca
 
 - **`search_locations.yml`**: Configures targeted geographic regions (e.g., Brazilian states) and marketplace store endpoints.
 - **`scraping_targets.yml`**: Defines product categories, hardware brands, model search terms (e.g., Lenovo IdeaPad, Samsung Galaxy Book), and target search queries.
-- **`additional_info.yml`**: Supplemental metadata configurations for feature extraction.
 
 ## Related Links
+
 - [Metadata Utilities](../app/utils/README.md)
 - [Bronze Discovery Pipeline](../app/pipelines/bronze/README.md)

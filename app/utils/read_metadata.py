@@ -39,14 +39,3 @@ def read_scraping_targets_metadata() -> dict:
         dict: The scraping targets metadata.
     """
     return _read_yaml(METADATA_DIR / 'scraping_targets.yml')
-
-
-def read_additional_info_metadata() -> dict:
-    """
-    Reads the additional information metadata from the YAML file.
-
-    Returns:
-        dict: The additional information metadata.
-    """
-    return _read_yaml(METADATA_DIR / 'additional_info.yml')
-
