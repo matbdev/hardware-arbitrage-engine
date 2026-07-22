@@ -10,7 +10,7 @@ from sqlalchemy import insert, select, update
 from sqlalchemy.orm import Session
 
 from app.config import db_engine
-from app.models import GeneralSearch, InformationExtraction
+from app.models import bronze
 from app.services import OLXCrawler
 from app.utils import read_search_locations_metadata
 
@@ -35,9 +35,9 @@ async def run_extraction_pipeline() -> None:
     # Query general search links filtered by region and store
     with db_engine.connect() as connection:
         df_olx = pl.read_database(
-            select(GeneralSearch).where(
-                (GeneralSearch.region.in_(abbreviation_list))
-                & (GeneralSearch.store.is_('OLX'))
+            select(bronze.GeneralSearch).where(
+                (bronze.GeneralSearch.region.in_(abbreviation_list))
+                & (bronze.GeneralSearch.store.is_('OLX'))
             ),
             connection=connection
         )
@@ -65,14 +65,14 @@ async def run_extraction_pipeline() -> None:
         with Session(db_engine) as session:
             # Insert newly extracted detailed listing data
             session.execute(
-                insert(InformationExtraction),
+                insert(bronze.InformationExtraction),
                 extraction_data_df.to_dicts()
             )
 
             # Update availability status for deleted/sold items
             if not updated_df.is_empty():
                 session.execute(
-                    update(GeneralSearch),
+                    update(bronze.GeneralSearch),
                     updated_df.to_dicts()
                 )
                 print(f"Updated status for {len(updated_df)} unavailable items.")

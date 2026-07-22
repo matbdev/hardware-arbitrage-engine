@@ -4,7 +4,7 @@ from typing import Optional
 from sqlalchemy import JSON
 from sqlalchemy.orm import Mapped, mapped_column
 
-from .base import Base
+from ..base import Base
 
 
 class SilverCleanAd(Base):
@@ -47,7 +47,7 @@ class SilverCleanAd(Base):
     urgent_sale: Mapped[bool]
     item_condition_indicator: Mapped[int]
     
-    # One-Hot Encoding of characteristcs
+    # One-Hot Encoding of characteristics
     has_accessories: Mapped[bool]
     has_bluetooth: Mapped[bool]
     has_cables: Mapped[bool]

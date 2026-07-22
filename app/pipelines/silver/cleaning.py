@@ -11,7 +11,7 @@ from sqlalchemy import insert, select
 from sqlalchemy.orm import Session
 
 from app.config import db_engine
-from app.models import GeneralSearch, InformationExtraction, SilverCleanAd
+from app.models import bronze, silver
 
 
 def clean_col_name(col_name: str) -> str:
@@ -45,19 +45,19 @@ def run_cleaning_pipeline() -> None:
     with db_engine.connect() as connection:
         # Load available general search listings from Bronze layer
         df_general = pl.read_database(
-            select(GeneralSearch).where(
-                (GeneralSearch.available.is_(True))
-                & (GeneralSearch.status == 200)
+            select(bronze.GeneralSearch).where(
+                (bronze.GeneralSearch.available.is_(True))
+                & (bronze.GeneralSearch.status == 200)
             ),
             connection=connection
         )
 
         # Load detailed information listings from Bronze layer
         df_details = pl.read_database(
-            select(InformationExtraction).where(
-                (InformationExtraction.price > 50)
-                & (InformationExtraction.price < 10_000)
-                & (InformationExtraction.title.isnot(None))
+            select(bronze.InformationExtraction).where(
+                (bronze.InformationExtraction.price > 50)
+                & (bronze.InformationExtraction.price < 10_000)
+                & (bronze.InformationExtraction.title.isnot(None))
             ),
             connection=connection
         )
@@ -228,7 +228,7 @@ def run_cleaning_pipeline() -> None:
     if not characteristics_feature_extraction_df.is_empty():
         print(f"Persisting {len(characteristics_feature_extraction_df)} cleaned listings to Silver clean ads database...")
         with Session(db_engine) as session:
-            session.execute(insert(SilverCleanAd), characteristics_feature_extraction_df.to_dicts())
+            session.execute(insert(silver.SilverCleanAd), characteristics_feature_extraction_df.to_dicts())
             session.commit()
             print("Silver clean ads data successfully committed.")
     else:

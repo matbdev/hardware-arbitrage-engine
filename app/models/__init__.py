@@ -1,10 +1,34 @@
 """
 Database models package export.
+Organized into bronze, silver, and gold layer modules.
 """
 from .base import Base
-from .bronze import GeneralSearch
-from .bronze import InformationExtraction
-from .silver import SilverCleanAd
-from .gold import GoldMarketTrend, GoldMarketBaseline, GoldPriceVariationAlert, DimProduct
+from . import bronze
+from . import silver
+from . import gold
 
-__all__ = ["Base", "GeneralSearch", "InformationExtraction", "SilverCleanAd", "GoldMarketTrend", "GoldMarketBaseline", "GoldPriceVariationAlert", "DimProduct"]
+# Direct class exports for backward compatibility and top-level convenience
+from .bronze import GeneralSearch, InformationExtraction
+from .silver import SilverCleanAd
+from .gold import (
+    DimProduct,
+    FactMarketBaseline,
+    FactMarketTrend,
+    FactPriceDropAlert,
+    FactArbitrageOpportunity,
+)
+
+__all__ = [
+    "Base",
+    "bronze",
+    "silver",
+    "gold",
+    "GeneralSearch",
+    "InformationExtraction",
+    "SilverCleanAd",
+    "DimProduct",
+    "FactMarketBaseline",
+    "FactMarketTrend",
+    "FactPriceDropAlert",
+    "FactArbitrageOpportunity",
+]

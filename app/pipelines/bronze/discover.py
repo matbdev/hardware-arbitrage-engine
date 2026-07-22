@@ -9,7 +9,7 @@ from sqlalchemy import insert
 from sqlalchemy.orm import Session
 
 from app.config import db_engine
-from app.models import GeneralSearch
+from app.models import bronze
 from app.services import OLXCrawler
 from app.utils import read_search_locations_metadata
 
@@ -55,7 +55,7 @@ async def run_discover_pipeline() -> None:
     if not general_df.is_empty():
         print(f"Saving {len(general_df)} discovered listings to database...")
         with Session(db_engine) as session:
-            session.execute(insert(GeneralSearch), general_df.to_dicts())
+            session.execute(insert(bronze.GeneralSearch), general_df.to_dicts())
             session.commit()
             print("Discovery data successfully committed.")
     else:
