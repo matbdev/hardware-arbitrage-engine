@@ -29,12 +29,13 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 1. **The Scraper (Ingestion / Bronze Layer):** 
    * `httpx` to fetch live listings asynchronously.
    * Target metadata and search locations are loaded dynamically from `metadata/` YAML files.
-   * Discovered links and extracted product details are persisted to the Bronze layer tables (`GeneralSearch` & `InformationExtraction`).
+   * Discovered links and extracted product details are persisted to Bronze layer tables (`bronze.GeneralSearch` & `bronze.InformationExtraction`).
 2. **The Processing Pipeline (Silver Layer):** 
    * `Polars` reads raw Bronze records.
-   * Text cleaning, numeric specification extraction (RAM, CPU, storage), condition flag detection (`needs_repair`, `urgent_sale`), and one-hot encoding of product characteristics are saved to `SilverCleanAd`.
+   * Text cleaning, numeric specification extraction (RAM, CPU, storage), condition flag detection (`needs_repair`, `urgent_sale`), and one-hot encoding of product characteristics are saved to `silver.SilverCleanAd`.
 3. **The AI Appraiser & Opportunities (Gold Layer):** 
-   * Evaluates cost-benefit ratios, market baselines, price drop alerts, and arbitrage deals.
+   * Populates product dimensions (`gold.DimProduct`) first, computes market pricing baselines (`gold.FactMarketBaseline`), macro trends (`gold.FactMarketTrend`), and price drop alerts (`gold.FactPriceDropAlert`).
+   * Evaluates deal opportunities against baselines and product spec summaries to calculate gross profit, margin %, and opportunity score (`gold.FactArbitrageOpportunity`).
 4. **Serving:**
    * Profitable arbitrage opportunities are served via API endpoints or dashboard interface.
 
@@ -46,15 +47,16 @@ hardware-arbitrage-engine/
 │   ├── config.py                # Database connection, logging, and concurrency limits
 │   ├── core/
 │   │   └── deepseek_config.py   # DeepSeek AI API configuration
-│   ├── models/                  # SQLAlchemy ORM models (Base, Bronze, Silver)
-│   │   ├── base.py
-│   │   ├── bronze.py
-│   │   └── silver.py
+│   ├── models/                  # Layered SQLAlchemy ORM models
+│   │   ├── base.py              # Base declarative model class
+│   │   ├── bronze/              # GeneralSearch & InformationExtraction
+│   │   ├── silver/              # SilverCleanAd
+│   │   └── gold/                # DimProduct, FactMarketBaseline, FactMarketTrend, etc.
 │   ├── pipelines/               # Production ETL execution modules
 │   │   ├── runner.py            # Master pipeline orchestrator
 │   │   ├── bronze/              # Bronze discovery & extraction (.py)
 │   │   ├── silver/              # Silver cleaning & feature engineering (.py)
-│   │   └── gold/                # Gold market analysis & arbitrage (.py)
+│   │   └── gold/                # Gold dimensions, baselines, trends & arbitrage (.py)
 │   ├── scraper/                 # Resilient HTTP scraping engine
 │   │   └── engine.py
 │   ├── services/                # Marketplace parsing services & crawlers
@@ -65,9 +67,9 @@ hardware-arbitrage-engine/
 │       ├── get_httpx_client.py
 │       └── read_metadata.py
 ├── notebooks/                   # Interactive Jupyter notebooks for experimentation
-│   ├── bronze/
-│   ├── silver/
-│   └── gold/
+│   ├── bronze/                  # Discover & extraction notebooks
+│   ├── silver/                  # Data cleaning notebook
+│   └── gold/                    # Dimension, baseline, trend, and arbitrage notebooks
 ├── metadata/                    # Configuration as code (YAML)
 │   ├── additional_info.yml
 │   ├── scraping_targets.yml
