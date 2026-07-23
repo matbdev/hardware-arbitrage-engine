@@ -3,6 +3,9 @@
 <p align="left">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.14-555555?style=for-the-badge&logo=python&logoColor=white&labelColor=3776AB" alt="Python 3.14" /></a>
   <a href="https://github.com/astral-sh/uv"><img src="https://img.shields.io/badge/uv-Package_Manager-555555?style=for-the-badge&logo=uv&logoColor=white&labelColor=DE5FE9" alt="uv" /></a>
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-REST_API-555555?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=009688" alt="FastAPI" /></a>
+  <a href="https://www.uvicorn.org/"><img src="https://img.shields.io/badge/Uvicorn-ASGI_Server-555555?style=for-the-badge&logo=python&logoColor=white&labelColor=4B8BBE" alt="Uvicorn" /></a>
+  <a href="https://swagger.io/"><img src="https://img.shields.io/badge/Swagger-OpenAPI_Docs-555555?style=for-the-badge&logo=swagger&logoColor=white&labelColor=85EA2D" alt="Swagger" /></a>
   <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-Database-555555?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=4169E1" alt="PostgreSQL" /></a>
   <a href="https://alembic.sqlalchemy.org/"><img src="https://img.shields.io/badge/Alembic-Migrations-555555?style=for-the-badge&logo=sqlalchemy&logoColor=white&labelColor=6C757D" alt="Alembic" /></a>
   <a href="https://pola.rs/"><img src="https://img.shields.io/badge/Polars-Data_Engineering-555555?style=for-the-badge&logo=polars&logoColor=white&labelColor=CD7F32" alt="Polars" /></a>
@@ -18,9 +21,9 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 
 ## Core Tech Stack
 * **Package Management:** uv
-* **Backend & API:** httpx
+* **Backend & API:** FastAPI, Uvicorn, httpx
 * **Database & Migrations:** PostgreSQL (with SQLite support for dev) & Alembic (version-controlled schema migrations)
-* **Data Validation:** Pydantic (Strict schema enforcement for AI outputs)
+* **Data Validation:** Pydantic V2 (Response & Request DTO schemas)
 * **Data Engineering / Processing:** Polars (Data transformation across Bronze, Silver, Gold layers)
 * **ORM:** SQLAlchemy (with custom schema isolation for `bronze`, `silver`, and `gold` layers)
 * **AI Integration:** DeepSeek V3 (via OpenRouter API)
@@ -42,16 +45,22 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 4. **Database & Migration Layer:**
    * PostgreSQL database engine with custom schema namespaces (`bronze`, `silver`, `gold`).
    * `Alembic` manages environment database migrations and version control (`alembic revision --autogenerate`), replacing hardcoded schema initialization.
-5. **Serving:**
-   * Profitable arbitrage opportunities are served via API endpoints or dashboard interface.
+5. **API Serving Layer:**
+   * FastAPI REST application serving Gold layer arbitrage deals, market baselines, price drop alerts, and trend analytics with generic pagination (`PaginatedResponse[T]`) and OpenAPI documentation (`/docs`).
 
 ## Folder Structure
 
 ```text
 hardware-arbitrage-engine/
 ├── alembic/                     # Database migration environment & revision scripts
-├── alembic.ini                  # Alembic migration configuration
 ├── app/                         # Application core package
+│   ├── api/                     # FastAPI application, DTO schemas & v1 REST endpoints
+│   │   ├── main.py              # Application entry point & CORS configuration
+│   │   ├── deps.py              # Database session dependency injection (get_db)
+│   │   ├── schemas/             # Pydantic V2 DTO response & envelope schemas
+│   │   └── v1/                  # Version 1 router & resource endpoints
+│   │       ├── router.py        # Master v1 router aggregating all endpoints
+│   │       └── endpoints/       # Route handlers (opportunities, baselines, trends, etc.)
 │   ├── config.py                # Database connection, logging, and concurrency limits
 │   ├── core/
 │   │   └── deepseek_config.py   # DeepSeek AI API configuration
@@ -67,11 +76,14 @@ hardware-arbitrage-engine/
 │   │   └── gold/                # Gold dimensions, baselines, trends & arbitrage (.py)
 │   ├── scraper/                 # Resilient HTTP scraping engine
 │   │   └── engine.py
-│   ├── services/                # Marketplace parsing services & crawlers
+│   ├── services/                # Database query services, marketplace parsers & crawlers
+│   │   ├── opportunity_service.py
+│   │   ├── baseline_service.py
 │   │   ├── olx_service.py
 │   │   └── crawlers/
-│   │       └── olx_crawler.py
-│   └── utils/                   # Shared utility modules
+│   └── utils/                   # Shared utility modules (pagination, db_helpers, httpx, YAML)
+│       ├── pagination.py        # Generic offset calculation & response envelope helpers
+│       ├── db_helpers.py        # Database count query helpers
 │       ├── get_httpx_client.py
 │       └── read_metadata.py
 ├── notebooks/                   # Interactive Jupyter notebooks for experimentation
