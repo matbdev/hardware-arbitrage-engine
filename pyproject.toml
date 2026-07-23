@@ -14,6 +14,7 @@ dependencies = [
     "charset-normalizer==3.4.7",
     "click==8.4.0",
     "dotenv==0.9.9",
+    "fastapi>=0.139.2",
     "h11==0.16.0",
     "httpcore==1.0.9",
     "httpx[http2]==0.28.1",
@@ -46,6 +47,7 @@ dependencies = [
     "typing-inspection==0.4.2",
     "urllib3==2.7.0",
     "uuid-utils==0.15.0",
+    "uvicorn>=0.51.0",
     "xxhash==3.7.0",
     "zstandard==0.25.0",
 ]

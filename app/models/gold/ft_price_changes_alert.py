@@ -1,18 +1,18 @@
 """
-Gold Layer Price Drop Alert Fact Model.
-Tracks advertisement price variations, listing age, and percentage drops over time.
+Gold Layer Price Changes Alert Fact Model.
+Tracks advertisement price variations, listing age, and percentage changes over time.
 """
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..base import Base
 
 
-class FactPriceDropAlert(Base):
+class FactPriceChangesAlert(Base):
     """
-    SQLAlchemy model representing the 'ft_gold_price_drop_alerts' table.
-    Stores alerts for listing price drops and market duration tracking.
+    SQLAlchemy model representing the 'ft_gold_price_changes_alerts' table.
+    Stores alerts for listing price changes and market duration tracking.
     """
-    __tablename__ = 'ft_gold_price_drop_alerts'
+    __tablename__ = 'ft_gold_price_changes_alerts'
     __table_args__ = {"schema": "gold"}
 
     # Listing identifier primary key
