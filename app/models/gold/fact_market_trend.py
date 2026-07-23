@@ -14,6 +14,7 @@ class FactMarketTrend(Base):
     Stores daily aggregated price trends and listing volumes by hardware category and brand.
     """
     __tablename__ = 'ft_gold_market_trends'
+    __table_args__ = {"schema": "gold"}
 
     # Auto-incrementing primary key
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

@@ -13,6 +13,7 @@ class FactPriceDropAlert(Base):
     Stores alerts for listing price drops and market duration tracking.
     """
     __tablename__ = 'ft_gold_price_drop_alerts'
+    __table_args__ = {"schema": "gold"}
 
     # Listing identifier primary key
     ad_id: Mapped[str] = mapped_column(primary_key=True)

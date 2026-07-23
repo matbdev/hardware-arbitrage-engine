@@ -4,8 +4,6 @@ Initializes environment variables, creates database tables, and executes the dat
 """
 from dotenv import load_dotenv
 
-from app.config import db_engine
-from app.models import Base
 from app.pipelines import run_pipelines
 
 
@@ -15,11 +13,6 @@ def main() -> None:
     """
     # Load environment variables from .env file if present
     load_dotenv()
-
-    # Create all ORM mapped database tables if they do not exist
-    print("Initializing database tables...")
-    Base.metadata.create_all(db_engine)
-    print("Database tables initialized successfully.")
 
     # Execute full data pipeline across Bronze, Silver, and Gold layers
     # print("Starting pipeline execution...")

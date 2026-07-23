@@ -13,6 +13,7 @@ class DimProduct(Base):
     Stores unique hardware product specifications identified by baseline_id.
     """
     __tablename__ = 'dim_products'
+    __table_args__ = {"schema": "gold"}
 
     # Primary key linking unique product baseline configurations
     baseline_id: Mapped[str] = mapped_column(primary_key=True)

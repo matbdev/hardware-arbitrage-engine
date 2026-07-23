@@ -5,6 +5,7 @@ description = "AI-powered arbitrage engine for hardware components scraping and 
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "alembic>=1.18.5",
     "annotated-doc==0.0.4",
     "annotated-types==0.7.0",
     "anyio==4.13.0",
@@ -30,6 +31,7 @@ dependencies = [
     "pandas>=3.0.3",
     "papermill>=2.7.0",
     "polars>=1.40.1",
+    "psycopg2-binary>=2.9.12",
     "pyarrow>=25.0.0",
     "pydantic==2.13.4",
     "pydantic-core==2.46.4",

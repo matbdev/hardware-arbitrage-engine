@@ -10,6 +10,7 @@ class InformationExtraction(Base):
     Stores the result of the scrap of the links collected and saved following the above schema
     """
     __tablename__ = "bronze_extraction_data"
+    __table_args__ = {"schema": "bronze"}
 
     id: Mapped[int] = mapped_column(primary_key=True)
     ad_id: Mapped[str]

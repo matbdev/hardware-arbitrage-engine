@@ -14,6 +14,7 @@ class FactArbitrageOpportunity(Base):
     Stores high-value deal opportunities identified by comparing listing prices to market medians.
     """
     __tablename__ = 'ft_gold_arbitrage_opportunities'
+    __table_args__ = {"schema": "gold"}
 
     # Listing identifier primary key
     ad_id: Mapped[str] = mapped_column(primary_key=True)

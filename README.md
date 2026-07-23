@@ -3,6 +3,8 @@
 <p align="left">
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.14-555555?style=for-the-badge&logo=python&logoColor=white&labelColor=3776AB" alt="Python 3.14" /></a>
   <a href="https://github.com/astral-sh/uv"><img src="https://img.shields.io/badge/uv-Package_Manager-555555?style=for-the-badge&logo=uv&logoColor=white&labelColor=DE5FE9" alt="uv" /></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-Database-555555?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=4169E1" alt="PostgreSQL" /></a>
+  <a href="https://alembic.sqlalchemy.org/"><img src="https://img.shields.io/badge/Alembic-Migrations-555555?style=for-the-badge&logo=sqlalchemy&logoColor=white&labelColor=6C757D" alt="Alembic" /></a>
   <a href="https://pola.rs/"><img src="https://img.shields.io/badge/Polars-Data_Engineering-555555?style=for-the-badge&logo=polars&logoColor=white&labelColor=CD7F32" alt="Polars" /></a>
   <a href="https://docs.pydantic.dev/"><img src="https://img.shields.io/badge/Pydantic-Validation-555555?style=for-the-badge&logo=pydantic&logoColor=white&labelColor=E91E63" alt="Pydantic" /></a>
   <a href="https://www.sqlalchemy.org/"><img src="https://img.shields.io/badge/SQLAlchemy-ORM-555555?style=for-the-badge&logo=sqlalchemy&logoColor=white&labelColor=D71F23" alt="SQLAlchemy" /></a>
@@ -17,9 +19,10 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 ## Core Tech Stack
 * **Package Management:** uv
 * **Backend & API:** httpx
+* **Database & Migrations:** PostgreSQL (with SQLite support for dev) & Alembic (version-controlled schema migrations)
 * **Data Validation:** Pydantic (Strict schema enforcement for AI outputs)
 * **Data Engineering / Processing:** Polars (Data transformation across Bronze, Silver, Gold layers)
-* **ORM & Database:** SQLAlchemy / SQLite (PostgreSQL ready for production)
+* **ORM:** SQLAlchemy (with custom schema isolation for `bronze`, `silver`, and `gold` layers)
 * **AI Integration:** DeepSeek V3 (via OpenRouter API)
 * **Scraping:** BeautifulSoup4 / Playwright
 * **Configuration:** YAML for search locations and scraping targets
@@ -29,25 +32,30 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 1. **The Scraper (Ingestion / Bronze Layer):** 
    * `httpx` to fetch live listings asynchronously.
    * Target metadata and search locations are loaded dynamically from `metadata/` YAML files.
-   * Discovered links and extracted product details are persisted to Bronze layer tables (`bronze.GeneralSearch` & `bronze.InformationExtraction`).
+   * Discovered links and extracted product details are persisted to Bronze layer database schema tables (`bronze.GeneralSearch` & `bronze.InformationExtraction`).
 2. **The Processing Pipeline (Silver Layer):** 
    * `Polars` reads raw Bronze records.
    * Text cleaning, numeric specification extraction (RAM, CPU, storage), condition flag detection (`needs_repair`, `urgent_sale`), and one-hot encoding of product characteristics are saved to `silver.SilverCleanAd`.
 3. **The AI Appraiser & Opportunities (Gold Layer):** 
    * Populates product dimensions (`gold.DimProduct`) first, computes market pricing baselines (`gold.FactMarketBaseline`), macro trends (`gold.FactMarketTrend`), and price drop alerts (`gold.FactPriceDropAlert`).
    * Evaluates deal opportunities against baselines and product spec summaries to calculate gross profit, margin %, and opportunity score (`gold.FactArbitrageOpportunity`).
-4. **Serving:**
+4. **Database & Migration Layer:**
+   * PostgreSQL database engine with custom schema namespaces (`bronze`, `silver`, `gold`).
+   * `Alembic` manages environment database migrations and version control (`alembic revision --autogenerate`), replacing hardcoded schema initialization.
+5. **Serving:**
    * Profitable arbitrage opportunities are served via API endpoints or dashboard interface.
 
 ## Folder Structure
 
 ```text
 hardware-arbitrage-engine/
+├── alembic/                     # Database migration environment & revision scripts
+├── alembic.ini                  # Alembic migration configuration
 ├── app/                         # Application core package
 │   ├── config.py                # Database connection, logging, and concurrency limits
 │   ├── core/
 │   │   └── deepseek_config.py   # DeepSeek AI API configuration
-│   ├── models/                  # Layered SQLAlchemy ORM models
+│   ├── models/                  # Layered SQLAlchemy ORM models (bronze, silver, gold schemas)
 │   │   ├── base.py              # Base declarative model class
 │   │   ├── bronze/              # GeneralSearch & InformationExtraction
 │   │   ├── silver/              # SilverCleanAd
@@ -74,7 +82,7 @@ hardware-arbitrage-engine/
 │   ├── additional_info.yml
 │   ├── scraping_targets.yml
 │   └── search_locations.yml
-├── docker-compose.yml           # Database infrastructure setup
+├── docker-compose.yml           # Database infrastructure setup (PostgreSQL, Redis, Adminer)
 ├── main.py                      # Main entry point script
 ├── pyproject.toml               # project metadata and dependencies
 └── uv.lock                      # Locked dependencies

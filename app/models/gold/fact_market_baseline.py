@@ -14,6 +14,7 @@ class FactMarketBaseline(Base):
     Stores benchmark price statistics computed per unique product baseline configuration.
     """
     __tablename__ = 'ft_gold_market_baselines'
+    __table_args__ = {"schema": "gold"}
 
     # Auto-incrementing primary key
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

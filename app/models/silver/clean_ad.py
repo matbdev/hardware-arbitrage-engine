@@ -13,6 +13,7 @@ class SilverCleanAd(Base):
     Stores the cleaned, normalized, and feature-engineered advertisement data.
     """
     __tablename__ = "silver_clean_ads"
+    __table_args__ = {"schema": "silver"}
 
     id: Mapped[int] = mapped_column(primary_key=True)
     ad_id: Mapped[str]

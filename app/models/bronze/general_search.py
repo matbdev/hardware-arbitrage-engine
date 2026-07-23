@@ -9,6 +9,7 @@ class GeneralSearch(Base):
     Stores the raw advertisement links discovered during the initial scraping phase.
     """
     __tablename__ = "bronze_ad_links"
+    __table_args__ = {"schema": "bronze"}
 
     id: Mapped[int] = mapped_column(primary_key=True)
     category: Mapped[str]
