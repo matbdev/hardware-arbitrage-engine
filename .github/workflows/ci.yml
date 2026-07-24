@@ -15,6 +15,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Verify PR source branch into main is develop
+        if: github.event_name == 'pull_request' && github.base_ref == 'main'
+        run: |
+          if [ "${{ github.head_ref }}" != "develop" ]; then
+            echo "::error::Direct PRs into 'main' are blocked! All PRs targeting 'main' must originate from the 'develop' branch."
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
