@@ -2,12 +2,12 @@
 Gold Layer Market Baselines Pipeline.
 Calculates baseline pricing statistics (min, median, max) per hardware baseline_id.
 """
+import polars as pl
 from sqlalchemy import insert, select
 from sqlalchemy.orm import Session
-import polars as pl
 
 from app.config import db_engine
-from app.models import silver, gold
+from app.models import gold, silver
 
 
 def run_market_baselines_pipeline() -> None:

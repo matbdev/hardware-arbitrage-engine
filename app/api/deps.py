@@ -1,7 +1,8 @@
 from typing import Generator
-from sqlalchemy.orm import Session, sessionmaker
-from app.config import db_engine
 
+from sqlalchemy.orm import Session, sessionmaker
+
+from app.config import db_engine
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db_engine)
 

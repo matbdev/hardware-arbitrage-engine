@@ -3,13 +3,13 @@ Gold Layer Product Dimension Pipeline.
 Extracts unique product hardware configurations from Silver layer clean ads
 and populates/upserts the dim_products table.
 """
-from sqlalchemy import cast, func, select, String
+import polars as pl
+from sqlalchemy import String, cast, func, select
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Session
-import polars as pl
 
 from app.config import db_engine
-from app.models import silver, gold
+from app.models import gold, silver
 
 
 def run_dim_products_pipeline() -> None:

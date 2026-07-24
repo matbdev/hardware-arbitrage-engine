@@ -3,12 +3,12 @@ Gold Layer Arbitrage Opportunities Pipeline.
 Evaluates clean listing prices against market baseline medians and product dimensions
 to detect undervalued deals with high profit margins and opportunity scores.
 """
+import polars as pl
 from sqlalchemy import insert, select
 from sqlalchemy.orm import Session
-import polars as pl
 
 from app.config import db_engine
-from app.models import silver, gold
+from app.models import gold, silver
 
 
 def run_arbitrage_opportunities_pipeline() -> None:

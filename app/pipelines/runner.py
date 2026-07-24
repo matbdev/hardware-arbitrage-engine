@@ -6,16 +6,16 @@ import asyncio
 
 from app.pipelines.bronze.discover import run_discover_pipeline
 from app.pipelines.bronze.extraction import run_extraction_pipeline
-from app.pipelines.silver.cleaning import run_cleaning_pipeline
+from app.pipelines.gold.arbitrage_opportunities import (
+    run_arbitrage_opportunities_pipeline,
+)
 
 # Gold pipelines ordered strictly by data dependency:
 from app.pipelines.gold.dim_products import run_dim_products_pipeline
 from app.pipelines.gold.market_baselines import run_market_baselines_pipeline
 from app.pipelines.gold.market_trends import run_market_trends_pipeline
 from app.pipelines.gold.price_drop_alerts import run_price_drop_alerts_pipeline
-from app.pipelines.gold.arbitrage_opportunities import (
-    run_arbitrage_opportunities_pipeline,
-)
+from app.pipelines.silver.cleaning import run_cleaning_pipeline
 
 
 def run_pipelines() -> None:

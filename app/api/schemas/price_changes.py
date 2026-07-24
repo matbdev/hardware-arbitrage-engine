@@ -12,16 +12,16 @@ class PriceChangesAlert(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     # Listing identifier primary key
-    ad_id: str = Field(..., description="Unique listing identifier", example="olx-987654321")
+    ad_id: str = Field(..., description="Unique listing identifier", json_schema_extra={"example": "olx-987654321"})
     
     # Listing details and URL
-    title: str = Field(..., description="Listing title", example="Samsung Galaxy Book i5 8GB")
-    url: str = Field(..., description="Direct marketplace listing URL", example="https://olx.com.br/vi/987654321")
+    title: str = Field(..., description="Listing title", json_schema_extra={"example": "Samsung Galaxy Book i5 8GB"})
+    url: str = Field(..., description="Direct marketplace listing URL", json_schema_extra={"example": "https://olx.com.br/vi/987654321"})
     
     # Historical price movement metrics
-    initial_price: float = Field(..., description="Initial price when first scraped in BRL", example=2000.00)
-    current_price: float = Field(..., description="Latest updated price in BRL", example=1600.00)
+    initial_price: float = Field(..., description="Initial price when first scraped in BRL", json_schema_extra={"example": 2000.00})
+    current_price: float = Field(..., description="Latest updated price in BRL", json_schema_extra={"example": 1600.00})
     
     # Calculated alert indicators
-    price_change_pct: float = Field(..., description="Percentage price drop ratio", example=-0.20)
-    days_on_market: int = Field(..., description="Number of days listing has been active", example=14)
+    price_change_pct: float = Field(..., description="Percentage price drop ratio", json_schema_extra={"example": -0.20})
+    days_on_market: int = Field(..., description="Number of days listing has been active", json_schema_extra={"example": 14})

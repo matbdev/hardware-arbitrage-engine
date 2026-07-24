@@ -12,3 +12,7 @@ Core application package for the **Hardware Arbitrage Engine**. Contains all bus
 - **[`services/`](services/README.md)**: Marketplace crawlers, query services, and HTML parsing services.
 - **[`utils/`](utils/README.md)**: Shared utility functions for pagination, database helpers, HTTP clients, and YAML metadata parsing.
 - **`config.py`**: Centralized SQLite/PostgreSQL engine initialization and database configuration.
+
+## Related Links
+
+- [Test Suite Package](../tests/README.md)

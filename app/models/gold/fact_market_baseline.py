@@ -3,6 +3,7 @@ Gold Layer Market Baseline Fact Model.
 Stores aggregated market baseline price benchmarks (min, median, max) per hardware product.
 """
 from datetime import date
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..base import Base

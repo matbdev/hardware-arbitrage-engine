@@ -13,10 +13,11 @@ router = APIRouter()
     response_model=PaginatedResponse[ArbitrageOpportunity],
     status_code=status.HTTP_200_OK,
     summary="List Top Arbitrage Deal Opportunities",
-    description="Retrieves a paginated list of high-ROI hardware deal opportunities sorted by opportunity score."
+    description="Retrieves a paginated list of high-ROI hardware deal opportunities filtered by profit margin and/or maximum price, sorted by opportunity score."
 )
 def list_opportunities(
-    min_margin: float = Query(default=0.10, ge=0.0, le=1.0, description="Minimum profit margin percentage (e.g. 0.15 for 15%)"),
+    min_margin: float | None = Query(default=0.10, ge=0.0, le=1.0, description="Optional minimum profit margin percentage (e.g. 0.15 for 15%)"),
+    max_price: float | None = Query(default=None, gt=0.0, description="Optional maximum listing price in BRL (e.g. 2000.0)"),
     page: int = Query(default=1, ge=1, description="Page number for pagination"),
     limit: int = Query(default=50, ge=1, le=100, description="Maximum number of items per page"),
     db: Session = Depends(get_db)
@@ -25,6 +26,7 @@ def list_opportunities(
         return opportunity_service.get_top_deals(
             db,
             min_margin=min_margin,
+            max_price=max_price,
             limit=limit,
             page=page
         )

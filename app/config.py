@@ -2,12 +2,12 @@
 Configuration module for the Hardware Arbitrage Engine.
 Sets up logging and establishes the database connection engine.
 """
-import os
 import asyncio
 import logging
+import os
 from pathlib import Path
 
-from sqlalchemy import create_engine, URL
+from sqlalchemy import URL, create_engine
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 

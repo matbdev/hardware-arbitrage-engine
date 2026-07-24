@@ -6,6 +6,7 @@
   <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-REST_API-555555?style=for-the-badge&logo=fastapi&logoColor=white&labelColor=009688" alt="FastAPI" /></a>
   <a href="https://www.uvicorn.org/"><img src="https://img.shields.io/badge/Uvicorn-ASGI_Server-555555?style=for-the-badge&logo=python&logoColor=white&labelColor=4B8BBE" alt="Uvicorn" /></a>
   <a href="https://swagger.io/"><img src="https://img.shields.io/badge/Swagger-OpenAPI_Docs-555555?style=for-the-badge&logo=swagger&logoColor=white&labelColor=85EA2D" alt="Swagger" /></a>
+  <a href="https://docs.pytest.org/"><img src="https://img.shields.io/badge/Pytest-Testing-555555?style=for-the-badge&logo=pytest&logoColor=white&labelColor=0A9EDC" alt="Pytest" /></a>
   <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-Database-555555?style=for-the-badge&logo=postgresql&logoColor=white&labelColor=4169E1" alt="PostgreSQL" /></a>
   <a href="https://alembic.sqlalchemy.org/"><img src="https://img.shields.io/badge/Alembic-Migrations-555555?style=for-the-badge&logo=sqlalchemy&logoColor=white&labelColor=6C757D" alt="Alembic" /></a>
   <a href="https://pola.rs/"><img src="https://img.shields.io/badge/Polars-Data_Engineering-555555?style=for-the-badge&logo=polars&logoColor=white&labelColor=CD7F32" alt="Polars" /></a>
@@ -22,6 +23,7 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 ## Core Tech Stack
 * **Package Management:** uv
 * **Backend & API:** FastAPI, Uvicorn, httpx
+* **Testing & Quality Assurance:** Pytest (Unit, Integration, and API endpoint testing)
 * **Database & Migrations:** PostgreSQL (with SQLite support for dev) & Alembic (version-controlled schema migrations)
 * **Data Validation:** Pydantic V2 (Response & Request DTO schemas)
 * **Data Engineering / Processing:** Polars (Data transformation across Bronze, Silver, Gold layers)
@@ -29,7 +31,7 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
 * **AI Integration:** DeepSeek V3 (via OpenRouter API)
 * **Scraping:** BeautifulSoup4 / Playwright
 * **Configuration:** YAML for search locations and scraping targets
-* **Code Quality:** Ruff
+* **Code Quality & Linting:** Ruff
 
 ## System Architecture
 1. **The Scraper (Ingestion / Bronze Layer):** 
@@ -47,6 +49,8 @@ An asynchronous web scraping and AI evaluation pipeline designed to identify und
    * `Alembic` manages environment database migrations and version control (`alembic revision --autogenerate`), replacing hardcoded schema initialization.
 5. **API Serving Layer:**
    * FastAPI REST application serving Gold layer arbitrage deals, market baselines, price drop alerts, and trend analytics with generic pagination (`PaginatedResponse[T]`) and OpenAPI documentation (`/docs`).
+6. **Testing & Quality Assurance:**
+   * Automated 3-layer test suite (`tests/`) built with Pytest (unit cleaners/parsers, SQLite in-memory ORM service integration, and FastAPI `TestClient` endpoint tests).
 
 ## Folder Structure
 
@@ -86,6 +90,11 @@ hardware-arbitrage-engine/
 │       ├── db_helpers.py        # Database count query helpers
 │       ├── get_httpx_client.py
 │       └── read_metadata.py
+├── tests/                       # Automated Pytest quality assurance test suite
+│   ├── conftest.py              # Shared fixtures (in-memory SQLite StaticPool & TestClient)
+│   ├── unit/                    # Unit tests (cleaners, pagination, HTML parsing, schemas)
+│   ├── integration/             # Service & ORM database integration tests
+│   └── api/                     # FastAPI HTTP endpoint tests
 ├── notebooks/                   # Interactive Jupyter notebooks for experimentation
 │   ├── bronze/                  # Discover & extraction notebooks
 │   ├── silver/                  # Data cleaning notebook

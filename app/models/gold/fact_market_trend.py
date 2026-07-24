@@ -3,6 +3,7 @@ Gold Layer Market Trend Fact Model.
 Tracks macro-level price trends and listing volume over time by date, category, and brand.
 """
 from datetime import date
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from ..base import Base

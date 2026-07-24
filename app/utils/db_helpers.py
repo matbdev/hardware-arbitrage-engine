@@ -2,6 +2,7 @@
 Database utility helper module for query execution and aggregate functions.
 """
 from typing import Type
+
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 

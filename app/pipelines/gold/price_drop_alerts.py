@@ -2,12 +2,12 @@
 Gold Layer Price Drop Alerts Pipeline.
 Monitors price variations over time per ad listing and flags price drop alerts.
 """
+import polars as pl
 from sqlalchemy import insert, select
 from sqlalchemy.orm import Session
-import polars as pl
 
 from app.config import db_engine
-from app.models import silver, gold
+from app.models import gold, silver
 
 
 def run_price_drop_alerts_pipeline() -> None:

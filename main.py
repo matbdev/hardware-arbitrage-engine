@@ -4,8 +4,6 @@ Initializes environment variables, creates database tables, and executes the dat
 """
 from dotenv import load_dotenv
 
-from app.pipelines import run_pipelines
-
 
 def main() -> None:
     """

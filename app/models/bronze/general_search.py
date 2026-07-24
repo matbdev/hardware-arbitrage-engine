@@ -1,5 +1,7 @@
 from datetime import datetime as dt
+
 from sqlalchemy.orm import Mapped, mapped_column
+
 from ..base import Base
 
 
